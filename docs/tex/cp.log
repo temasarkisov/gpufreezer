@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.30)  30 JAN 2023 16:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.30)  30 JAN 2023 17:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1515,39 +1515,34 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 consecutive:
 [27]) (/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
 consecutive:
-)
-<inc/img/cp_ex_0.png, id=735, 944.52875pt x 275.0275pt>
-File: inc/img/cp_ex_0.png Graphic file (type png)
-<use inc/img/cp_ex_0.png>
-Package pdftex.def Info: inc/img/cp_ex_0.png  used on input line 103.
-(pdftex.def)             Requested size: 488.59238pt x 142.26378pt.
-
-Overfull \hbox (19.12189pt too wide) in paragraph at lines 103--103
- [] 
- []
-
-[28]
-<inc/img/cp_ex_1.png, id=774, 942.52126pt x 130.4875pt>
-File: inc/img/cp_ex_1.png Graphic file (type png)
-<use inc/img/cp_ex_1.png>
-Package pdftex.def Info: inc/img/cp_ex_1.png  used on input line 105.
-(pdftex.def)             Requested size: 493.2491pt x 68.2866pt.
-
-Overfull \hbox (23.77861pt too wide) in paragraph at lines 105--105
- [] 
- []
-
-<inc/img/cp_ex_2.png, id=775, 939.51pt x 254.9525pt>
-File: inc/img/cp_ex_2.png Graphic file (type png)
-<use inc/img/cp_ex_2.png>
-Package pdftex.def Info: inc/img/cp_ex_2.png  used on input line 107.
-(pdftex.def)             Requested size: 492.82007pt x 133.72795pt.
-
-Overfull \hbox (23.34958pt too wide) in paragraph at lines 107--107
- [] 
- []
-
-) [29 <./inc/img/cp_ex_0.png> <./inc/img/cp_ex_1.png> <./inc/img/cp_ex_2.png>]
+) [28]
+<inc/img/example_1.png, id=770, 917.4275pt x 434.62375pt>
+File: inc/img/example_1.png Graphic file (type png)
+<use inc/img/example_1.png>
+Package pdftex.def Info: inc/img/example_1.png  used on input line 104.
+(pdftex.def)             Requested size: 420.42592pt x 199.16928pt.
+<inc/img/example_2.png, id=772, 917.4275pt x 184.69pt>
+File: inc/img/example_2.png Graphic file (type png)
+<use inc/img/example_2.png>
+Package pdftex.def Info: inc/img/example_2.png  used on input line 106.
+(pdftex.def)             Requested size: 424.00961pt x 85.35826pt.
+<inc/img/example_3.png, id=773, 917.4275pt x 38.1425pt>
+File: inc/img/example_3.png Graphic file (type png)
+<use inc/img/example_3.png>
+Package pdftex.def Info: inc/img/example_3.png  used on input line 108.
+(pdftex.def)             Requested size: 431.163pt x 17.92523pt.
+<inc/img/example_4.png, id=774, 917.4275pt x 76.285pt>
+File: inc/img/example_4.png Graphic file (type png)
+<use inc/img/example_4.png>
+Package pdftex.def Info: inc/img/example_4.png  used on input line 110.
+(pdftex.def)             Requested size: 427.73329pt x 35.56593pt.
+<inc/img/example_5.png, id=775, 917.4275pt x 415.5525pt>
+File: inc/img/example_5.png Graphic file (type png)
+<use inc/img/example_5.png>
+Package pdftex.def Info: inc/img/example_5.png  used on input line 112.
+(pdftex.def)             Requested size: 439.71626pt x 199.16928pt.
+) [29 <./inc/img/example_1.png> <./inc/img/example_2.png> <./inc/img/example_3.
+png> <./inc/img/example_4.png>] [30 <./inc/img/example_5.png>]
 \openout2 = `40-conclusion.aux'.
 
 
@@ -1557,7 +1552,7 @@ Overfull \hbox (5.89253pt too wide) in paragraph at lines 8--9
 ий USB--устройств. 
  []
 
-) [30
+) [31
 
 
 
@@ -1571,7 +1566,7 @@ No file cp.bbl.
 \openout2 = `50-application.aux'.
 
  (./50-application.tex
-(/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c [31
+(/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c [32
 
 
 
@@ -1579,21 +1574,21 @@ No file cp.bbl.
 
 
 
-] [32]
-[33] [34])) [35] (./cp.aux (./01-contents.aux) (./02-intro.aux)
+] [33]
+[34] [35])) [36] (./cp.aux (./01-contents.aux) (./02-intro.aux)
 (./10-analysis.aux) (./20-design.aux) (./30-impl.aux) (./40-conclusion.aux)
 (./41-biblio.aux) (./50-application.aux))
 
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `cp.out' has not changed.
-(rerunfilecheck)             Checksum: BCC3D2B2E73EDFF402B65294F28408FF;8327.
+(rerunfilecheck)             Checksum: 0AC990423B8558DF1CA8FB4BAF8B971C;8329.
  ) 
 Here is how much of TeX's memory you used:
- 40562 strings out of 478268
- 934448 string characters out of 5846347
- 1595947 words of memory out of 5000000
- 57326 multiletter control sequences out of 15000+600000
+ 40589 strings out of 478268
+ 935132 string characters out of 5846347
+ 1596319 words of memory out of 5000000
+ 57348 multiletter control sequences out of 15000+600000
  480000 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  106i,6n,99p,1446b,2093s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1608,10 +1603,10 @@ l/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/
 texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/te
 xlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1440.pfb></usr/local/texl
 ive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1728.pfb>
-Output written on cp.pdf (33 pages, 711134 bytes).
+Output written on cp.pdf (34 pages, 730975 bytes).
 PDF statistics:
- 1218 PDF objects out of 1440 (max. 8388607)
- 1143 compressed objects within 12 object streams
- 726 named destinations out of 1000 (max. 500000)
- 295 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1229 PDF objects out of 1440 (max. 8388607)
+ 1149 compressed objects within 12 object streams
+ 729 named destinations out of 1000 (max. 500000)
+ 305 words of extra memory for PDF output out of 10000 (max. 10000000)
 
