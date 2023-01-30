@@ -120,28 +120,25 @@ static void usb_dev_insert(struct usb_device *dev)
         printk(KERN_INFO "gpufreezer: there are %d not allowed devices connected, freezing GPU\n", not_acked_devs);
         if (!is_gpu_down)
         {
-            char *argv1[] = {"/usr/bin/nvidia-smi", "-i", "0000:01:00.0 -pm 0", NULL};
-            char *envp1[] = {"HOME=/home/tema", "TERM=xterm-256color", "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin", NULL};
-            if (call_usermodehelper(argv1[0], argv1, envp1, UMH_WAIT_PROC > 0))
-            {
-                printk(KERN_WARNING "gpufreezer: unable to freeze GPU\n");
-            }
-            else
-            {
-                printk(KERN_INFO "gpufreezer: GPU is frozen\n");
-                is_gpu_down = true;
-            }
-
-            char *argv[] = {"/usr/bin/nvidia-smi", " drain -p", "0000:01:00.0 -m 1", NULL};
-            char *envp[] = {"HOME=/home/tema", "TERM=xterm-256color", "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin", NULL};
+            char *argv[] = {"/usr/bin/nvidia-smi", "-i", "0000:01:00.0 -pm 0", NULL};
+            char *envp[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
             if (call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC > 0))
             {
                 printk(KERN_WARNING "gpufreezer: unable to freeze GPU\n");
             }
             else
             {
-                printk(KERN_INFO "gpufreezer: GPU is frozen\n");
-                is_gpu_down = true;
+                char *argv[] = {"/usr/bin/nvidia-smi", "drain -p", "0000:01:00.0 -m 1", NULL};
+                char *envp[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
+                if (call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC > 0))
+                {
+                    printk(KERN_WARNING "gpufreezer: unable to freeze GPU\n");
+                }
+                else
+                {
+                    printk(KERN_INFO "gpufreezer: GPU is frozen\n");
+                    is_gpu_down = true;
+                }
             }
         }
     }
@@ -164,9 +161,9 @@ static void usb_dev_remove(struct usb_device *dev)
         if (is_gpu_down)
         {
             printk(KERN_INFO "gpufreezer: every not allowed devices are disconnected, bringing GPU back\n");
-            
+
             char *argv[] = {"/usr/bin/nvidia-smi", "drain -p", "0000:01:00.0 -m 0"};
-            char *envp[] = {"HOME=/home/tema", "TERM=xterm-256color", "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin", NULL};
+            char *envp[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
             if (call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC > 0))
             {
                 printk(KERN_WARNING "gpufreezer: unable to activate GPU\n");
