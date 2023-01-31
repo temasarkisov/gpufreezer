@@ -16,7 +16,7 @@ typedef struct int_usb_device
 bool is_gpu_down = false;
 
 struct usb_device_id allowed_devs[] = {
-    {USB_DEVICE(0x13fe, 0x3e00)},
+    {USB_DEVICE(0x13fe, 0x4301)},  // 0x13fe, 0x4300
 };
 
 // Declare and init the head node of the linked list.
@@ -80,7 +80,7 @@ static int count_not_acked_devs(void)
     return count;
 }
 
-//  Add connected device to list of tracked devices.
+// Add connected device to list of tracked devices.
 static void add_int_usb_dev(struct usb_device *dev)
 {
     int_usb_device_t *new_usb_device = (int_usb_device_t *)kmalloc(sizeof(int_usb_device_t), GFP_KERNEL);
@@ -89,7 +89,7 @@ static void add_int_usb_dev(struct usb_device *dev)
     list_add_tail(&new_usb_device->list_node, &connected_devices);
 }
 
-//  Delete device from list of tracked devices.
+// Delete device from list of tracked devices.
 static void delete_int_usb_dev(struct usb_device *dev)
 {
     int_usb_device_t *device, *temp;
@@ -113,50 +113,24 @@ static void usb_dev_insert(struct usb_device *dev)
 
     if (!not_acked_devs)
     {
-        printk(KERN_INFO "gpufreezer: there are no not allowed devices connected, skipping GPU freezing\n");
+        printk(KERN_INFO "gpufreezer: there are no any not allowed devices connected, skipping GPU freezing\n");
     }
     else
     {
-        printk(KERN_INFO "gpufreezer: there are %d not allowed devices connected, freezing GPU\n", not_acked_devs);
         if (!is_gpu_down)
         {
-            // START DEBUG
-            char *argvlol[] = {"/bin/sh", "-c",  "echo 'lol' >>", "/home/tema/MyProjects/gpufreezer/lol.txt", NULL};
-            char *envplol[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
-            call_usermodehelper(argvlol[0], argvlol, envplol, UMH_WAIT_PROC > 0);
-            // STOP DEBUG
+            printk(KERN_INFO "gpufreezer: there are %d not allowed devices connected, freezing GPU\n", not_acked_devs);
 
-            // START DEBUG
-            char *argvd[] = {"/usr/bin/nvidia-smi", ">>", "/home/tema/MyProjects/gpufreezer/pasha.txt", NULL};
-            char *envpd[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
-            call_usermodehelper(argvd[0], argvd, envpd, UMH_WAIT_PROC > 0);
-            // STOP DEBUG
-
-            char *argv1[] = {"/usr/bin/nvidia-smi", "-i", "0000:01:00.0 -pm 0", NULL};
-            char *envp1[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
-            if (call_usermodehelper(argv1[0], argv1, envp1, UMH_WAIT_PROC > 0))
+            char *argv[] = {"/sbin/modprobe", "-r", "nvidia_uvm", NULL};
+            char *envp[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
+            if (call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC > 0))
             {
                 printk(KERN_WARNING "gpufreezer: unable to freeze GPU\n");
             }
             else
             {
-                // START DEBUG
-                char *argvdd[] = {"/usr/bin/nvidia-smi", ">>", "/home/tema/MyProjects/gpufreezer/pasha.txt", NULL};
-                char *envpdd[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
-                call_usermodehelper(argvdd[0], argvdd, envpdd, UMH_WAIT_PROC > 0);
-                // STOP DEBUG
-
-                char *argv[] = {"/usr/bin/nvidia-smi", "drain -p", "0000:01:00.0 -m 1", NULL};
-                char *envp[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
-                if (call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC > 0))
-                {
-                    printk(KERN_WARNING "gpufreezer: unable to freeze GPU\n");
-                }
-                else
-                {
-                    printk(KERN_INFO "gpufreezer: GPU is frozen\n");
-                    is_gpu_down = true;
-                }
+                printk(KERN_INFO "gpufreezer: GPU is frozen\n");
+                is_gpu_down = true;
             }
         }
     }
@@ -180,7 +154,7 @@ static void usb_dev_remove(struct usb_device *dev)
         {
             printk(KERN_INFO "gpufreezer: every not allowed devices are disconnected, bringing GPU back\n");
 
-            char *argv[] = {"/usr/bin/nvidia-smi", "drain -p", "0000:01:00.0 -m 0"};
+            char *argv[] = {"/sbin/modprobe", "nvidia_uvm", NULL};
             char *envp[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
             if (call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC > 0))
             {

@@ -1,11 +1,17 @@
 #include <linux/module.h>
 #include <linux/slab.h>
 #include <linux/usb.h>
-#include <nvml.h>
+#include <linux/seq_file.h>
+#include <linux/proc_fs.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Artem Sarkisov");
 MODULE_VERSION("1.0");
+
+
+static struct proc_dir_entry *proc_root = NULL;
+
+static struct proc_dir_entry *proc_gpu_status_file = NULL;
 
 // Wrapper for usb_device_id with added list_head field to track devices.
 typedef struct int_usb_device
@@ -14,7 +20,7 @@ typedef struct int_usb_device
     struct list_head list_node;
 } int_usb_device_t;
 
-bool is_gpu_down = false;
+bool gpu_state = true;
 
 struct usb_device_id allowed_devs[] = {
     {USB_DEVICE(0x13fe, 0x4301)},  // 0x13fe, 0x4300
@@ -90,12 +96,6 @@ static void add_int_usb_dev(struct usb_device *dev)
     list_add_tail(&new_usb_device->list_node, &connected_devices);
 }
 
-// Modify GPU device drain state.
-// static int modify_device_drain_state()
-// {
-
-// }
-
 // Delete device from list of tracked devices.
 static void delete_int_usb_dev(struct usb_device *dev)
 {
@@ -125,28 +125,9 @@ static void usb_dev_insert(struct usb_device *dev)
     else
     {
         printk(KERN_INFO "gpufreezer: there are %d not allowed devices connected, freezing GPU\n", not_acked_devs);
-        if (!is_gpu_down)
+        if (gpu_state)
         {
-            char *argv[] = {"/usr/bin/nvidia-smi", "-i 0000:01:00.0 -pm 0", NULL};
-            char *envp[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
-            if (call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC))
-            {
-                printk(KERN_WARNING "gpufreezer: unable to freeze GPU\n");
-            }
-            else
-            {
-                char *argv[] = {"/usr/bin/nvidia-smi", "drain -p 0000:01:00.0 -m 1", NULL};
-                char *envp[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
-                if (call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC))
-                {
-                    printk(KERN_WARNING "gpufreezer: unable to freeze GPU\n");
-                }
-                else
-                {
-                    printk(KERN_INFO "gpufreezer: GPU is frozen\n");
-                    is_gpu_down = true;
-                }
-            }
+            gpu_state = false;
         }
     }
 }
@@ -165,24 +146,45 @@ static void usb_dev_remove(struct usb_device *dev)
     }
     else
     {
-        if (is_gpu_down)
+        if (!gpu_state)
         {
-            printk(KERN_INFO "gpufreezer: every not allowed devices are disconnected, bringing GPU back\n");
-
-            char *argv[] = {"/usr/bin/nvidia-smi", "drain -p 0000:01:00.0 -m 0", NULL};
-            char *envp[] = {"HOME=/", "TERM=linux", "PATH=/sbin:/bin:/usr/sbin:/usr/bin", NULL};
-            if (call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC))
-            {
-                printk(KERN_WARNING "gpufreezer: unable to activate GPU\n");
-            }
-            else
-            {
-                printk(KERN_INFO "gpufreezer: GPU is available now\n");
-                is_gpu_down = false;
-            }
+            
+            gpu_state = true;
         }
     }
 }
+
+void show_int_message(struct seq_file *m, const char *const f, const long num) {
+    char tmp[256];
+    int len;
+
+    len = snprintf(tmp, 256, f, num);
+    seq_write(m, tmp, len);
+}
+
+void print_usb_state(struct seq_file *m) {
+    show_int_message(m, "state: %d\n", gpu_state);
+}
+
+static int show_usb_state(struct seq_file *m, void *v) {
+    print_usb_state(m);
+    return 0;
+}
+
+static int proc_usb_open(struct inode *sp_inode, struct file *sp_file) {
+    return single_open(sp_file, show_usb_state, NULL);
+}
+
+static int proc_release(struct inode *sp_node, struct file *sp_file) {
+    return 0;
+}
+
+// Override open and close file functions.
+static const struct proc_ops usb_ops = {
+    proc_read: seq_read,
+    proc_open: proc_usb_open,
+    proc_release: proc_release,
+};
 
 // Handler for event's notifier.
 static int notify(struct notifier_block *self, unsigned long action, void *dev)
@@ -211,6 +213,14 @@ static struct notifier_block usb_notify = {
 // Module init function.
 static int __init gpufreezer_init(void)
 {
+    if ((proc_root = proc_mkdir("gpufreezer_log", NULL)) == NULL) {
+        return -1;
+    }
+
+    if ((proc_gpu_status_file = proc_create("gpu_state", 066, proc_root, &usb_ops)) == NULL) {
+        return -1;
+    }
+
     usb_register_notify(&usb_notify);
     printk(KERN_INFO "gpufreezer: module loaded\n");
     return 0;
@@ -219,6 +229,14 @@ static int __init gpufreezer_init(void)
 // Module exit function.
 static void __exit gpufreezer_exit(void)
 {
+    if (proc_gpu_status_file != NULL) {
+        remove_proc_entry("gpu_state", proc_root);
+    }
+    
+    if (proc_root != NULL) {
+        remove_proc_entry("gpufreezer", NULL);
+    }
+
     usb_unregister_notify(&usb_notify);
     printk(KERN_INFO "gpufreezer: module unloaded\n");
 }
