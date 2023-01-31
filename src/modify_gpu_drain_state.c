@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
-#include "/usr/include/nvml.h"
+#include <nvml.h>
 
 #define GPU_TO_ACTIVATE '1'
 #define GPU_TO_DEACTIVATE '0'
