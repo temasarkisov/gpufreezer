@@ -148,7 +148,6 @@ static void usb_dev_remove(struct usb_device *dev)
     {
         if (!gpu_state)
         {
-            
             gpu_state = true;
         }
     }
@@ -162,17 +161,17 @@ void show_int_message(struct seq_file *m, const char *const f, const long num) {
     seq_write(m, tmp, len);
 }
 
-void print_usb_state(struct seq_file *m) {
-    show_int_message(m, "state: %d\n", gpu_state);
+void print_gpu_state(struct seq_file *m) {
+    show_int_message(m, "%d", gpu_state);
 }
 
-static int show_usb_state(struct seq_file *m, void *v) {
-    print_usb_state(m);
+static int show_gpu_state(struct seq_file *m, void *v) {
+    print_gpu_state(m);
     return 0;
 }
 
-static int proc_usb_open(struct inode *sp_inode, struct file *sp_file) {
-    return single_open(sp_file, show_usb_state, NULL);
+static int proc_gpu_state_open(struct inode *sp_inode, struct file *sp_file) {
+    return single_open(sp_file, show_gpu_state, NULL);
 }
 
 static int proc_release(struct inode *sp_node, struct file *sp_file) {
@@ -182,7 +181,7 @@ static int proc_release(struct inode *sp_node, struct file *sp_file) {
 // Override open and close file functions.
 static const struct proc_ops usb_ops = {
     proc_read: seq_read,
-    proc_open: proc_usb_open,
+    proc_open: proc_gpu_state_open,
     proc_release: proc_release,
 };
 
@@ -234,7 +233,7 @@ static void __exit gpufreezer_exit(void)
     }
     
     if (proc_root != NULL) {
-        remove_proc_entry("gpufreezer", NULL);
+        remove_proc_entry("gpufreezer_log", NULL);
     }
 
     usb_unregister_notify(&usb_notify);
