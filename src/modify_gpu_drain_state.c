@@ -47,6 +47,7 @@ int main() {
       return 1;
    }   
 
+   // Observer for handling gpu status file
    while (1) {
       char *gpu_status_filename = "/proc/gpufreezer_log/gpu_state";
       FILE *gpu_status_fp = fopen(gpu_status_filename, "r");
