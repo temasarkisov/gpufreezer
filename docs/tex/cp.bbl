@@ -75,6 +75,26 @@ mod\_devicetable.h - include/linux/mod\_devicetable.h - Linux source code
   \url{https://elixir.bootlin.com/linux/v5.13/source/include/linux/mod\_devicetable.h#L121}
   (дата обращения: 15.02.2022).
 
+\bibitem{nvml}
+\selectlanguageifdefined{russian}
+NVIDIA Management Library (NVML) [Электронный ресурс].
+\newblock Режим доступа:
+  \url{https://developer.nvidia.com/nvidia-management-library-nvml} (дата
+  обращения: 15.02.2022).
+
+\bibitem{nvidia}
+\selectlanguageifdefined{russian}
+NVIDIA [Электронный ресурс].
+\newblock Режим доступа: \url{https://www.nvidia.com/en-us/}
+  (дата обращения: 15.02.2022).
+
+\bibitem{nvidia_smi}
+\selectlanguageifdefined{russian}
+NVIDIA System Management Interface [Электронный ресурс].
+\newblock Режим доступа:
+  \url{https://developer.nvidia.com/nvidia-system-management-interface}
+  (дата обращения: 15.02.2022).
+
 \bibitem{umhelper}
 \selectlanguageifdefined{russian}
 Invoking user-space applications from the kernel – IBM Developer

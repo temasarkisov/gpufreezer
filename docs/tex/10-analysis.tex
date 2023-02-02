@@ -7,6 +7,7 @@
 \begin{itemize}
 	\item проанализировать методы обработки событий, возникающих при взаимодействии с USB--устройствами;
 	\item проанализировать структуры и функции ядра, предоставляющие информацию о USB--устройствах;
+	\item проанализировать способы взаимодействия с графического ускорителя;
 	\item разработать алгоритмы и структуру программного обеспечения;
 	\item реализовать программное обеспечение;
 	\item проанализировать разработанное программное обеспечение.
@@ -14,12 +15,12 @@
 
 \section{Обработка событий от USB--устройств}
 
-Для обработки событий, возникающих при работе с USB--устройствами, например, таких как подключение или отключение устройства, необходимо узнать о возникновении события и выполнить необходимую обработку после возникновения события.
+Для обработки событий, возникающих при подключении USB--устройств, необходимо перехватить событие подключения USB--устройства и выполнить необходимую обработку.
 
-Далее будут рассмотрены существующие различные подходы к определению возникновения событий от USB--устройств и выбран наиболее подходящий для реализации.
+Ниже будут рассмотрены существующие подходы к определению возникновения событий подключения USB--устройств и выбран наиболее подходящий для реализации.
 
 \newpage
-\subsection{Уведомители}
+\subsection{Уведомители ядра}
 
 Ядро Linux содержит механизм, называемый <<уведомителями>> (\texttt{notifiers}) или <<цепочками уведомлений>> (\texttt{notifiers chains}), который позволяет различным подсистемам подписываться на асинхронные события от других подсистем. Цепочки уведомлений в настоящее время активно используется в ядре; существуют цепочки для событий \texttt{hotplug} памяти, изменения политики частоты процессора, события \texttt{USB hotplug}, загрузки и выгрузки модулей \cite{notifications}.
 
@@ -39,7 +40,7 @@ struct notifier_block {
 
 Данная структура описана в \texttt{/include/linux/notifier.h}. Она содержит указатель на функцию--обработчик уведомления (\texttt{notifier\_call}), указатель на следующий уведомитель (\texttt{next}) и приоритет уведомителя (\texttt{priority}). Уведомители с более высоким значением приоритета выполняются первее.
 
-В листинге \ref{lst:notifier_fn_t} представлена сигнатура функии \texttt{notifier\_call}.
+В листинге \ref{lst:notifier_fn_t} представлен прототип функии \texttt{notifier\_call}.
 
 \begin{lstlisting}[
 	caption={Тип \texttt{notifier\_fn\_t}},
@@ -49,7 +50,7 @@ struct notifier_block {
 typedef	int (*notifier_fn_t)(struct notifier_block *nb, unsigned long action, void *data);
 \end{lstlisting}
 
-Сигнатура содержит указатель на уведомитель (\texttt{nb}), действие, при котором срабатывает функция (\texttt{action}) и данные, которые передаются от действия в обработчик (\texttt{data}).
+Прототип содержит указатель на уведомитель (\texttt{nb}), действие, при котором вызывается функция (\texttt{action}) и данные, которые передаются от действия в обработчик (\texttt{data}).
 
 \newpage
 Для регистрации уведомителя для USB--портов используются функции регистрации и удаления уведомителя, представленные в листинге \ref{lst:usb_notifiers}.
@@ -68,7 +69,25 @@ extern void usb_register_notify(struct notifier_block *nb);
 extern void usb_unregister_notify(struct notifier_block *nb);
 \end{lstlisting}
 
-Прототипы и константы для действий описаны в файле\\ \texttt{/include/linux/notifier.h}, а реализации функций --- в файле\\ \texttt{/drivers/usb/core/notify.c}. Соответственно действие \texttt{USB\_DEVICE\_ADD} означает подключение нового устройства, а \texttt{USB\_DEVICE\_REMOVE} --- удаление.
+Прототипы и константы для действий описаны в файле\\ \texttt{/include/linux/notifier.h}, а реализации функций --- в файле\\ \texttt{/drivers/usb/core/notify.c}. Соответственно действие \texttt{USB\_DEVICE\_ADD} означает подключение нового устройства, а \texttt{USB\_DEVICE\_REMOVE} --- отключения.
+
+В листинге \ref{lst:notifiers_func_add_remove} представлены функции уведомителя из файла\\ \texttt{/drivers/usb/core/notify.c} для подлючения и отключения USB--устройства.
+
+\begin{lstlisting}[
+	caption={Функции уведомители для подлючения и отключения USB--устройства},
+	label={lst:notifiers_func_add_remove},
+	style={c},
+	]
+void usb_notify_add_device(struct usb_device *udev)
+{
+	blocking_notifier_call_chain(&usb_notifier_list, USB_DEVICE_ADD, udev);
+}
+
+void usb_notify_remove_device(struct usb_device *udev)
+{
+	blocking_notifier_call_chain(&usb_notifier_list, USB_DEVICE_REMOVE, udev);
+}
+\end{lstlisting}
 
 Особенности \texttt{уведомителей}:
 
@@ -80,11 +99,11 @@ extern void usb_unregister_notify(struct notifier_block *nb);
 
 \subsection{usbmon}
 
-\texttt{usbmon} \cite{usbmon} --- средство ядра Linux, используемое для сбора информации о событиях, произошедших на устройствах ввода--вывода, подключенных через USB.
+\texttt{usbmon} \cite{usbmon} --- средство ядра Linux, предназначенное для сбора информации о событиях, свазанных с устройствами ввода--вывода, подключенных к USB порту.
 
-\texttt{usbmon} предоставляет информацию о запросах, сделанных дравйверами устройств к драйверам хост--контроллера (HCD). Если драйвера хост--контроллера неисправны, то данные, предоставленные \texttt{usbmon}, могут не соответствовать действительным переданным данным.
+\texttt{usbmon} предоставляет информацию о запросах, сделанных драйверами устройств к драйверам хост--контроллера (HCD). Если драйвера хост--контроллера неисправны, то данные, предоставленные \texttt{usbmon}, могут не соответствовать действительным переданным данным.
 
-В настоящее время реализованы два программных интерфейса для взаимодействия с \texttt{usbmon}: текстовый и двоичный. Двоичный интерфейс доступен через символьное устройство в пространстве имен \texttt{/dev}. Текстовый интерфейс устарел, но сохраняется для совместимости.
+В настоящее время реализованы два программных интерфейса для взаимодействия с \texttt{usbmon}: текстовый и двоичный. Двоичный интерфейс доступен с помощью символьного устройства в пространстве имен \texttt{/dev}. Текстовый интерфейс устарел, но сохраняется для совместимости.
 
 В листинге \ref{lst:usbmon} представлена структура ответа, полученного после события, случившегося на USB--устройстве (например, подключение к компьютеру).
 
@@ -124,7 +143,7 @@ struct usbmon_packet {
 Особенности \texttt{usbmon}:
 
 \begin{itemize}
-	\item возможность просматривать собранную информацию через специальное ПО (например, \texttt{Wireshark});
+	\item возможность просматривать собранную информацию с помощью специального ПО (например, \texttt{Wireshark});
 	\item возможность отслеживать события на одном порте USB или на всех сразу;
 	\item отсутствие возможности вызова обработчика при возникновении определенного события.
 \end{itemize}
@@ -333,39 +352,146 @@ struct usb_device_id {
 \end{lstlisting}
 
 \newpage
-\section{Запуск программ пользовательского пространства в пространстве ядра}
+\section{Взаимодействие с графическим ускорителем}
 
-Для запуска программ пространства пользователя из пространства ядра используется \texttt{usermode-helper API}. Чтобы создать процесс из пространства пользователя необходимо указать имя исполняемого файла, аргументы, с которыми требуется запустить программу, и переменные окружения \cite{umhelper}.
+Для взаимодействия с графическим ускорителем используется \texttt{NVML} \cite{nvml}. \texttt{NVML} -- это API для мониторинга и управления состояниями устройств \texttt{NVIDIA} \cite{nvidia}. \texttt{NVML} обеспечивает прямой доступ к запросам и командам утилиты \texttt{nvidia-smi} \cite{nvidia_smi}. 
 
-В листинге \ref{lst:umh} представлена структура процесса, использующегося в \texttt{usermode-helper API} и сигнатура функции вызова \cite{umh}.
+API \texttt{NVML} поставляется вместе с драйвером дисплея \texttt{NVIDIA}. \texttt{SDK} предоставляет соответствующие заголовки, библиотеки и примеры приложений. 
+
+Все версии \texttt{NVML} имеют обратную совместимость и предназначены для создания приложений сторонних разработчиков.
+
+Для работы с графическим ускорителем, устройство идентифицируется при помощью структуры \texttt{nvmlDevice\_t}. Эти данные можно получить путём вызова функции \texttt{nvmlDeviceGetHandleByIndex}, которая в свою очередь принимает аргумент \texttt{index}, являющийся индексом устройства в списке подключенных GPU устройств. По умолчанию индекс графического ускорителя равен нулю. 
+
+В листинге \ref{lst:nvmlDeviceGetHandleByIndex} представлен прототип функции\\ \texttt{nvmlDeviceGetHandleByIndex}. 
 
 \begin{lstlisting}[
-	caption={\texttt{usermode-helper API}},
-	label={lst:umh},
+	caption={\texttt{Прототип функции \texttt{nvmlDeviceGetHandleByIndex}}},
+	label={lst:nvmlDeviceGetHandleByIndex},
 	style={c},
 	]
-#define UMH_NO_WAIT	0	/* don't wait at all */
-#define UMH_WAIT_EXEC	1	/* wait for the exec, but not the process */
-#define UMH_WAIT_PROC	2	/* wait for the process to complete */
-#define UMH_KILLABLE	4	/* wait for EXEC/PROC killable */
-
-struct subprocess_info {
-	struct work_struct work;
-	struct completion *complete;
-	const char *path;
-	char **argv;
-	char **envp;
-	int wait;
-	int retval;
-	int (*init)(struct subprocess_info *info, struct cred *new);
-	void (*cleanup)(struct subprocess_info *info);
-	void *data;
-} __randomize_layout;
-
-extern int call_usermodehelper(const char *path, char **argv, char **envp, int wait);
+nvmlReturn_t nvmlDeviceGetHandleByIndex(unsigned int index, nvmlDevice_t* device)
 \end{lstlisting}
+
+Для получения PCI графического ускорителя при помощи полученной структуры \texttt{nvmlDevice\_t} используется функция \texttt{nvmlDeviceGetPciInfo}.
+
+В листинге \ref{lst:nvmlDeviceGetPciInfo} представлен прототип функции \texttt{nvmlDeviceGetPciInfo}. 
+
+\begin{lstlisting}[
+	caption={\texttt{Прототип функции \texttt{nvmlDeviceGetPciInfo}}},
+	label={lst:nvmlDeviceGetPciInfo},
+	style={c},
+	]
+nvmlReturn_t nvmlDeviceGetPciInfo(nvmlDevice_t device, nvmlPciInfo_t* pci)
+\end{lstlisting}
+
+Для управления состоянием графического ускорителя используется функция \texttt{nvmlDeviceModifyDrainState}. С помощью этой функции графический ускоритель переводится в режим ожидания. В режиме ожидания устройство не принимает никаких новых входящих запросов. С помощью этой же функции графический ускоритель переводится в активное состояние. 
+
+\newpage
+В листинге \ref{lst:nvmlDeviceModifyDrainState} представлен прототип функции\\ \texttt{nvmlDeviceModifyDrainState}. 
+
+\begin{lstlisting}[
+	caption={\texttt{Прототип функции \texttt{nvmlDeviceModifyDrainState}}},
+	label={lst:nvmlDeviceModifyDrainState},
+	style={c},
+	]
+nvmlReturn_t nvmlDeviceModifyDrainState(nvmlPciInfo_t* pciInfo, nvmlEnableState_t newState)
+\end{lstlisting}
+
+У всех вышеупомянутых функций возвращаемый тип \texttt{nvmlReturn\_t}. В листинге \ref{lst:nvmlReturn_t} перечислены возможные значения переменной этого типа. 
+
+\begin{lstlisting}[
+	caption={\texttt{Возможные значения переменной типа \texttt{nvmlReturn\_t}}},
+	label={lst:nvmlReturn_t},
+	style={c},
+	]
+typedef enum nvmlReturn_enum
+{
+	// cppcheck-suppress *
+	NVML_SUCCESS = 0,                        //!< The operation was successful
+	NVML_ERROR_UNINITIALIZED = 1,            //!< NVML was not first initialized with nvmlInit()
+	NVML_ERROR_INVALID_ARGUMENT = 2,         //!< A supplied argument is invalid
+	NVML_ERROR_NOT_SUPPORTED = 3,            //!< The requested operation is not available on target device
+	NVML_ERROR_NO_PERMISSION = 4,            //!< The current user does not have permission for operation
+	NVML_ERROR_ALREADY_INITIALIZED = 5,      //!< Deprecated: Multiple initializations are now allowed through ref counting
+	NVML_ERROR_NOT_FOUND = 6,                //!< A query to find an object was unsuccessful
+	NVML_ERROR_INSUFFICIENT_SIZE = 7,        //!< An input argument is not large enough
+	NVML_ERROR_INSUFFICIENT_POWER = 8,       //!< A device's external power cables are not properly attached
+	NVML_ERROR_DRIVER_NOT_LOADED = 9,        //!< NVIDIA driver is not loaded
+	NVML_ERROR_TIMEOUT = 10,                 //!< User provided timeout passed
+	NVML_ERROR_IRQ_ISSUE = 11,               //!< NVIDIA Kernel detected an interrupt issue with a GPU
+	NVML_ERROR_LIBRARY_NOT_FOUND = 12,       //!< NVML Shared Library couldn't be found or loaded
+	NVML_ERROR_FUNCTION_NOT_FOUND = 13,      //!< Local version of NVML doesn't implement this function
+	NVML_ERROR_CORRUPTED_INFOROM = 14,       //!< infoROM is corrupted
+	NVML_ERROR_GPU_IS_LOST = 15,             //!< The GPU has fallen off the bus or has otherwise become inaccessible
+	NVML_ERROR_RESET_REQUIRED = 16,          //!< The GPU requires a reset before it can be used again
+	NVML_ERROR_OPERATING_SYSTEM = 17,        //!< The GPU control device has been blocked by the operating system/cgroups
+	NVML_ERROR_LIB_RM_VERSION_MISMATCH = 18, //!< RM detects a driver/library version mismatch
+	NVML_ERROR_IN_USE = 19,                  //!< An operation cannot be performed because the GPU is currently in use
+	NVML_ERROR_MEMORY = 20,                  //!< Insufficient memory
+	NVML_ERROR_NO_DATA = 21,                 //!< No data
+	NVML_ERROR_VGPU_ECC_NOT_SUPPORTED = 22,  //!< The requested vgpu operation is not available on target device, because ECC is enabled
+	NVML_ERROR_INSUFFICIENT_RESOURCES = 23,  //!< Ran out of critical resources, other than memory
+	NVML_ERROR_FREQ_NOT_SUPPORTED = 24,  //!< Ran out of critical resources, other than memory
+	NVML_ERROR_UNKNOWN = 999                 //!< An internal driver error occurred
+} nvmlReturn_t;
+\end{lstlisting}
+
+% \section{Передача данных в пространство пользователя}
+
+% Поставленная задача подразумевает передачу данных из пространства ядра пространство пользователя. 
+
+% Способы передачи данных из пространства ядра пространство пользователя:
+
+% \begin{itemize}
+%     \item файловая система \texttt{/proc};
+%     \item netlink сокеты.
+% \end{itemize}
+
+\section{Виртуальная файловая система \texttt{/proc}}
+
+Для организации доступа к разнообразным файловым системам в Unix используется промежуточный слой абстракции -- виртуальная файловая система. Виртуальная файловая система организована как специальный интерфейс. Виртуальная файловая система объявляет API доступа к ней. Это API реализовывается драйверами конкретных файловых систем.
+
+Виртуальная файловая система \texttt{/proc} -- специальный интерфейс, с помощью которого можно мгновенно получить информацию о ядре в пространство пользователя.
+
+В основном дереве каталога \texttt{/proc} в Linux, каждый каталог имеет числовое имя и соответствует процессу, с соответствующим PID. Файлы в этих каталогах соответствуют структуре \texttt{task\_struct}. С помощью команды \texttt{cat /proc/1/cmdline}, можно узнать аргументы запуска процесса с идентификатором равным единице. В дереве \texttt{/proc/sys} отображаются внутренние переменные ядра.
+
+Ядро предоставляет возможность добавить своё дерево в каталог \texttt{/proc}. Внутри ядра объявлена структура \texttt{struct proc\_ops}. Эта структура содержит такие указатели, как указатель на функции чтения и записи в файл. 
+
+В листинге \ref{lst:proc} представлено объявление данной структуры в ядре.
+
+\begin{lstlisting}[
+	caption={\texttt{Cтруктура \texttt{struct proc\_ops}}},
+	label={lst:proc},
+	style={c},
+	]
+struct proc_ops {
+	unsigned int proc_flags;
+	int	(*proc_open)(struct inode *, struct file *);
+	ssize_t	(*proc_read)(struct file *, char __user *, size_t, loff_t *);
+	ssize_t (*proc_read_iter)(struct kiocb *, struct iov_iter *);
+	ssize_t	(*proc_write)(struct file *, const char __user *, size_t, loff_t *);
+	loff_t	(*proc_lseek)(struct file *, loff_t, int);
+	int	(*proc_release)(struct inode *, struct file *);
+	__poll_t (*proc_poll)(struct file *, struct poll_table_struct *);
+	long	(*proc_ioctl)(struct file *, unsigned int, unsigned long);
+	#ifdef CONFIG_COMPAT
+	long	(*proc_compat_ioctl)(struct file *, unsigned int, unsigned long);
+	#endif
+	int	(*proc_mmap)(struct file *, struct vm_area_struct *);
+	unsigned long (*proc_get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
+} __randomize_layout;
+\end{lstlisting}
+
+С помощью вызова функций \texttt{proc\_mkdir()} и \texttt{proc\_create()} в модуле ядра можно зарегистрировать свои каталоги и файлы в \texttt{/proc}. Функции \texttt{copy\_to\_user()} и \texttt{copy\_from\_user()} реализуют передачу данных из пространства ядра в пространство пользователя и наоборот.
+
+Таким образом, с помощью виртуальной файловой системы \texttt{/proc} можно получать и передавать данные между пространством ядра и пространствм пользовтеля .
+
+% \subsection{Netlink сокеты}
+% Netlink представляет  собой способ коммуникации между юзерспейсом и ядром Linux. Коммуникация осуществляется с помощью обычного сокета, с использованием особого протокола — AF\_NETLINK.
+% Netlink позволяет взаимодействовать с большим количеством подсистем ядра — интерфейсы, маршрутизация, фильтр сетевых пакетов. Кроме того, можно общаться со своим модулем ядра. Разумеется в последнем должна быть реализована поддержка такого способа коммуникации.
+% Каждое сообщение netlink представляет собой заголовок, представленный структурой nlmsghdr, а так же определенного количества байт — «полезной нагрузки» (playload). Данная «нагрузка» может представлять собой какую либо структуру, либо же просто RAW данные. Сообщение, во время доставки, может быть разбито на несколько частей. В таких случаях каждый следующий пакет помечается флагом NLM\_F\_MULTI, а последний флагом NLMSG\_DONE. Для разбора сообщений имеется целый набор макросов, определенный в заголовочных файлах netlink.h и rtnetlink.h
 
 \newpage
 \section*{Выводы}
 
-Были рассмотрены методы обработки событий, возникающих при взаимодействии с USB--устройствами. Среди рассмотренных методов был выбран механизм уведомителей, так как он позволяет привязать свой обработчик события, а также реализован на уровне ядра Linux. Были рассмотрены структуры и функции ядра для работы с уведомителями, а также особенности разработки загружаемых модулей ядра.
+Были рассмотрены методы обработки событий, возникающих при взаимодействии с USB--устройствами. Среди рассмотренных методов был выбран механизм уведомителей, так как он позволяет привязать свой обработчик события, а также реализован на уровне ядра Linux. Были рассмотрены структуры и функции ядра для работы с уведомителями, способ взаимодействия с графическим ускорителем, а также особенности разработки загружаемых модулей ядра. Для передачи данных из пространства ядра в пространство пользователя будет использоваться файловая система \texttt{proc}.

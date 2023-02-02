@@ -7,7 +7,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}Обработка событий от USB--устройств}{6}{section.1.2}\protected@file@percent }
 \citation{notifications}
 \citation{notifier_block}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.1}Уведомители}{7}{subsection.1.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.1}Уведомители ядра}{7}{subsection.1.2.1}\protected@file@percent }
 \newlabel{lst:notifier_block}{{1.1}{7}{Структура \texttt {notifier\_block}}{lstlisting.1.1}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {1.1}{\ignorespaces Структура \texttt  {notifier\_block}}}{7}{lstlisting.1.1}\protected@file@percent }
 \newlabel{lst:notifier_fn_t}{{1.2}{7}{Тип \texttt {notifier\_fn\_t}}{lstlisting.1.2}{}}
@@ -15,33 +15,45 @@
 \citation{usbmon}
 \newlabel{lst:usb_notifiers}{{1.3}{8}{Уведомители на USB--портах}{lstlisting.1.3}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {1.3}{\ignorespaces Уведомители на USB--портах}}{8}{lstlisting.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.2}usbmon}{8}{subsection.1.2.2}\protected@file@percent }
+\newlabel{lst:notifiers_func_add_remove}{{1.4}{8}{Функции уведомители для подлючения и отключения USB--устройства}{lstlisting.1.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.4}{\ignorespaces Функции уведомители для подлючения и отключения USB--устройства}}{8}{lstlisting.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.2}usbmon}{9}{subsection.1.2.2}\protected@file@percent }
+\newlabel{lst:usbmon}{{1.5}{9}{Структура \texttt {usbmon\_packet}}{lstlisting.1.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.5}{\ignorespaces Структура \texttt  {usbmon\_packet}}}{9}{lstlisting.1.5}\protected@file@percent }
 \citation{udevadm}
 \citation{libudev}
-\newlabel{lst:usbmon}{{1.4}{9}{Структура \texttt {usbmon\_packet}}{lstlisting.1.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.4}{\ignorespaces Структура \texttt  {usbmon\_packet}}}{9}{lstlisting.1.4}\protected@file@percent }
-\citation{usb_device}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2.3}udevadm}{10}{subsection.1.2.3}\protected@file@percent }
-\newlabel{lst:udevadm}{{1.5}{10}{Правила \texttt {udevadm}}{lstlisting.1.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.5}{\ignorespaces Правила \texttt  {udevadm}}}{10}{lstlisting.1.5}\protected@file@percent }
+\newlabel{lst:udevadm}{{1.6}{10}{Правила \texttt {udevadm}}{lstlisting.1.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.6}{\ignorespaces Правила \texttt  {udevadm}}}{10}{lstlisting.1.6}\protected@file@percent }
+\citation{usb_device}
 \@writefile{toc}{\contentsline {section}{\numberline {1.3}USB--устройства в ядре Linux}{11}{section.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3.1}Структура \texttt  {usb\_device}}{11}{subsection.1.3.1}\protected@file@percent }
-\newlabel{lst:usb_device}{{1.6}{11}{Структура \texttt {usb\_device}}{lstlisting.1.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.6}{\ignorespaces Структура \texttt  {usb\_device}}}{11}{lstlisting.1.6}\protected@file@percent }
+\newlabel{lst:usb_device}{{1.7}{11}{Структура \texttt {usb\_device}}{lstlisting.1.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.7}{\ignorespaces Структура \texttt  {usb\_device}}}{11}{lstlisting.1.7}\protected@file@percent }
 \citation{usb_spec}
-\newlabel{lst:usb_device_descriptor}{{1.7}{13}{Структура \texttt {usb\_device\_descriptor}}{lstlisting.1.7}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.7}{\ignorespaces Структура \texttt  {usb\_device\_descriptor}}}{13}{lstlisting.1.7}\protected@file@percent }
+\newlabel{lst:usb_device_descriptor}{{1.8}{13}{Структура \texttt {usb\_device\_descriptor}}{lstlisting.1.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.8}{\ignorespaces Структура \texttt  {usb\_device\_descriptor}}}{13}{lstlisting.1.8}\protected@file@percent }
 \citation{usb_device_id}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3.2}Структура \texttt  {usb\_device\_id}}{14}{subsection.1.3.2}\protected@file@percent }
-\newlabel{lst:usb_device_id}{{1.8}{14}{Структура \texttt {usb\_device\_id}}{lstlisting.1.8}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.8}{\ignorespaces Структура \texttt  {usb\_device\_id}}}{14}{lstlisting.1.8}\protected@file@percent }
-\citation{umhelper}
-\citation{umh}
-\@writefile{toc}{\contentsline {section}{\numberline {1.4}Запуск программ пользовательского пространства в пространстве ядра}{15}{section.1.4}\protected@file@percent }
-\newlabel{lst:umh}{{1.9}{15}{\texttt {usermode-helper API}}{lstlisting.1.9}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.9}{\ignorespaces \texttt  {usermode-helper API}}}{15}{lstlisting.1.9}\protected@file@percent }
+\newlabel{lst:usb_device_id}{{1.9}{14}{Структура \texttt {usb\_device\_id}}{lstlisting.1.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.9}{\ignorespaces Структура \texttt  {usb\_device\_id}}}{14}{lstlisting.1.9}\protected@file@percent }
+\citation{nvml}
+\citation{nvidia}
+\citation{nvidia_smi}
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Взаимодействие с графическим ускорителем}{15}{section.1.4}\protected@file@percent }
+\newlabel{lst:nvmlDeviceGetHandleByIndex}{{1.10}{15}{\texttt {Прототип функции \texttt {nvmlDeviceGetHandleByIndex}}}{lstlisting.1.10}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.10}{\ignorespaces \texttt  {Прототип функции \texttt  {nvmlDeviceGetHandleByIndex}}}}{15}{lstlisting.1.10}\protected@file@percent }
+\newlabel{lst:nvmlDeviceGetPciInfo}{{1.11}{15}{\texttt {Прототип функции \texttt {nvmlDeviceGetPciInfo}}}{lstlisting.1.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.11}{\ignorespaces \texttt  {Прототип функции \texttt  {nvmlDeviceGetPciInfo}}}}{15}{lstlisting.1.11}\protected@file@percent }
+\newlabel{lst:nvmlDeviceModifyDrainState}{{1.12}{16}{\texttt {Прототип функции \texttt {nvmlDeviceModifyDrainState}}}{lstlisting.1.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.12}{\ignorespaces \texttt  {Прототип функции \texttt  {nvmlDeviceModifyDrainState}}}}{16}{lstlisting.1.12}\protected@file@percent }
+\newlabel{lst:nvmlReturn_t}{{1.13}{16}{\texttt {Возможные значения переменной типа \texttt {nvmlReturn\_t}}}{lstlisting.1.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.13}{\ignorespaces \texttt  {Возможные значения переменной типа \texttt  {nvmlReturn\_t}}}}{16}{lstlisting.1.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.5}Виртуальная файловая система \texttt  {/proc}}{17}{section.1.5}\protected@file@percent }
+\newlabel{lst:proc}{{1.14}{17}{\texttt {Cтруктура \texttt {struct proc\_ops}}}{lstlisting.1.14}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.14}{\ignorespaces \texttt  {Cтруктура \texttt  {struct proc\_ops}}}}{17}{lstlisting.1.14}\protected@file@percent }
 \@setckpt{10-analysis}{
-\setcounter{page}{17}
+\setcounter{page}{20}
 \setcounter{equation}{0}
 \setcounter{enumi}{0}
 \setcounter{enumii}{0}
@@ -51,7 +63,7 @@
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
 \setcounter{chapter}{1}
-\setcounter{section}{4}
+\setcounter{section}{5}
 \setcounter{subsection}{0}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
@@ -70,13 +82,13 @@
 \setcounter{ALG@storecount}{0}
 \setcounter{ALG@tmpcounter}{0}
 \setcounter{algorithm}{0}
-\setcounter{lstnumber}{20}
+\setcounter{lstnumber}{17}
 \setcounter{Item}{0}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{11}
+\setcounter{bookmark@seq@number}{12}
 \setcounter{csvinputline}{0}
 \setcounter{csvrow}{0}
 \setcounter{csvcol}{0}
-\setcounter{lstlisting}{9}
+\setcounter{lstlisting}{14}
 \setcounter{section@level}{0}
 }

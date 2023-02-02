@@ -8,7 +8,7 @@
 
 В качестве среды разработки выбрана среда \texttt{Visual Studio Code} \cite{vscode}.
 
-\section{Хранение информации об отслеживаемых устройствах}
+\section{Хранение информации об\\отслеживаемых устройствах}
 
 Для хранения информации об отслеживаемых устройствах объявлена структура \texttt{int\_usb\_device}, которая хранит в себе идентификационные данные устройства (\texttt{PID, VID}) и указатель на элемент списка.
 
@@ -18,7 +18,7 @@
 	caption={Структура \texttt{int\_usb\_device}},
 	label={lst:iud},
 	style={c},
-	linerange={9-14},
+	linerange={15-20},
 	]{/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c}
 \end{lstinputlisting}
 
@@ -31,26 +31,26 @@
 	caption={Функции для работы со списком отслеживаемых устройств},
 	label={lst:adiud},
 	style={c},
-	linerange={83-104},
+	linerange={89-110},
 	]{/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c}
 \end{lstinputlisting}
 
-\section{Идентификация устройства как доверенного}
+\section{Идентификация устройства как разрешённого}
 
-Для проверки устройства необходимо проверить его идентификационные данные с данными доверенных устройств. В листинге \ref{lst:allow} представлены объявление списка доверенных устройств и функции для идентификации устройства.
+Для проверки устройства необходимо проверить его идентификационные данные с данными разрешённых устройств. В листинге \ref{lst:allow} представлены объявление списка разрешённых устройств и функции для идентификации устройства.
 
 \newpage
 \begin{lstinputlisting}[
 	caption={Функции для идентификации устройств},
 	label={lst:allow},
 	style={c},
-	linerange={18-21, 25-81},
+	linerange={24-26, 31-87},
 	]{/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c}
 \end{lstinputlisting}
 
 \section{Обработка событий USB--устройства}
 
-При подключении устройство добавляется в список отслеживаемых устройств. После этого происходит проверка на наличие среди отслеживаемых устройств недоверенных, и, в случае если такие были найдены, происходит отключение драйвера графического ускорителя. Отключение происходит путем вызова программы \texttt{nvidia-smi} через \texttt{usermode-helper API}.
+При подключении устройство добавляется в список отслеживаемых устройств. После этого происходит проверка на наличие среди отслеживаемых устройств неразрешённых, и, в случае если такие были найдены, происходит изменение режима работы графического ускорителя.
 
 В листинге \ref{lst:ins} представлен обработчик подключения USB--устройства.
 
@@ -58,11 +58,11 @@
 	caption={Обработчик подключения USB--устройства},
 	label={lst:ins},
 	style={c},
-	linerange={106-145},
+	linerange={112-132},
 	]{/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c}
 \end{lstinputlisting}
 
-При отключении устройство удаляется из списка отслеживаемых устройств. После этого происходит проверка на наличие среди отслеживаемых устройств недоверенных, и, в случае если такие не были найдены, происходит включение драйвера графического ускорителя. Включение также происходит путем вызова программы \texttt{nvidia-smi} через \texttt{usermode-helper API}.
+При отключении устройство удаляется из списка отслеживаемых устройств. После этого происходит проверка на наличие среди отслеживаемых устройств неразрешённых, и, в случае если такие не были найдены, происходит происходит изменение режима работы графического ускорителя.
 
 В листинге \ref{lst:del} представлен обработчик отключения USB--устройства.
 
@@ -70,10 +70,11 @@
 	caption={Обработчик отключения USB--устройства},
 	label={lst:del},
 	style={c},
-	linerange={147-178},
+	linerange={134-153},
 	]{/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c}
 \end{lstinputlisting}
 
+\newpage
 \section{Регистрация уведомителя\\ для USB--устройств}
 
 В листинге \ref{lst:not} представлено объявление уведомителя и его функции--обработчика.
@@ -82,7 +83,7 @@
 	caption={Уведомитель для USB--устройств},
 	label={lst:not},
 	style={c},
-	linerange={180-202},
+	linerange={192-214},
 	]{/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c}
 \end{lstinputlisting}
 
@@ -92,8 +93,42 @@
 	caption={Регистрация и дерегистрация уведомителя},
 	label={lst:mod},
 	style={c},
-	linerange={204-217},
+	linerange={216-249},
 	]{/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c}
+\end{lstinputlisting}
+
+\section{Запись данных в виртуальную\\файловую систему \texttt{/proc}}
+
+В листинге \ref{lst:proc_write} представлена запись данных в виртуальную файловую систему \texttt{/proc}. Данные представляют собой состояние работы, в которое нужно перевести графический ускоритель
+
+\begin{lstinputlisting}[
+	caption={Запись данных в виртуальную файловую систему \texttt{/proc}},
+	label={lst:proc_write},
+	style={c},
+	linerange={155-190},
+	]{/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c}
+\end{lstinputlisting}
+
+\section{Модификация режима работы графического ускорителя}
+
+В листинге \ref{lst:modify_gpu_state_obtain_device} представлено получение данных устройства для дальнейшего взаимодействия с ним.
+
+\begin{lstinputlisting}[
+	caption={Получение данных подключенного графического ускорителя},
+	label={lst:modify_gpu_state_obtain_device},
+	style={c},
+	linerange={22-43},
+	]{/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/modify_gpu_drain_state.c}
+\end{lstinputlisting}
+
+В листинге \ref{lst:modify_gpu_state_process} представлен код, предназначенный для обработки изменения в файле \texttt{gpu\_state} в виртуальной файловой системе \texttt{/proc}.
+
+\begin{lstinputlisting}[
+	caption={Обработка изменения в файле \texttt{gpu\_state} в виртуальной системе \texttt{/proc}},
+	label={lst:modify_gpu_state_process},
+	style={c},
+	linerange={46-74},
+	]{/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/modify_gpu_drain_state.c}
 \end{lstinputlisting}
 
 \newpage
@@ -103,10 +138,10 @@
 
 \img{70mm}{example_1}{Работа графического ускорителя до подключения USB--устройства}
 
-\img{30mm}{example_2}{Пример подключения недоверенного устройства}
+\img{30mm}{example_2}{Пример подключения неразрешённого устройства}
 
-\img{6.3mm}{example_3}{Проверка работы графического ускорителя после подключения недоверенного устройства}
+\img{6.3mm}{example_3}{Проверка работы графического ускорителя после подключения неразрешённого устройства}
 
-\img{12.5mm}{example_4}{Пример отключения недоверенного устройства}
+\img{12.5mm}{example_4}{Пример отключения неразрешённого устройства}
 
-\img{70mm}{example_5}{Проверка работы графического ускорителя после отключения недоверенного устройства}
+\img{70mm}{example_5}{Проверка работы графического ускорителя после отключения неразрешённого устройства}

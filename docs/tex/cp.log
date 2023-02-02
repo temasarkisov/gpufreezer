@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.30)  31 JAN 2023 00:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.30)  1 FEB 2023 23:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1111,7 +1111,11 @@ Package shellesc Info: Restricted shell escape enabled on input line 77.
 \csv@out=\write4
 )) (./cp.aux
 (./01-contents.aux) (./02-intro.aux) (./10-analysis.aux) (./20-design.aux)
-(./30-impl.aux) (./40-conclusion.aux) (./41-biblio.aux) (./50-application.aux))
+(./30-impl.aux) (./40-conclusion.aux) (./41-biblio.aux) (./50-application.aux
+
+LaTeX Warning: Label `lst:source' multiply defined.
+
+))
 \openout1 = `cp.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
@@ -1140,6 +1144,7 @@ Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1231,13 +1236,7 @@ LaTeX Font Info:    Trying to load font information for T2A+cmtt on input line
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/cyrillic/t2acmtt.fd
 File: t2acmtt.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
-)
-Overfull \hbox (5.54465pt too wide) in paragraph at lines 12--12
- [][] [][]\T2A/cmr/m/n/14.4 Запуск про-грамм поль-зо-ва-тель-ско-го про-стран-с
-тва в про-стран- 
- []
-
-[3
+) [3
 
 
 
@@ -1245,11 +1244,11 @@ Overfull \hbox (5.54465pt too wide) in paragraph at lines 12--12
 \tf@toc=\write6
 \openout6 = `cp.toc'.
 
-)
-[4]
+) [4]
 \openout2 = `02-intro.aux'.
 
- (./02-intro.tex
+
+(./02-intro.tex
 Overfull \hbox (24.92575pt too wide) in paragraph at lines 10--11
 \T2A/cmr/m/n/14.4 под-клю-чен-но-го USB--устройства, сле-ду-ет стро-го от-сле-ж
 и-вать ак-тив-ные устрой-
@@ -1265,19 +1264,25 @@ Overfull \hbox (24.92575pt too wide) in paragraph at lines 10--11
 
  (./10-analysis.tex
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 1.
+
+Overfull \hbox (7.06178pt too wide) in paragraph at lines 18--19
+[]\T2A/cmr/m/n/14.4 Для об-ра-бот-ки со-бы-тий, воз-ни-ка-ю-щих при под-клю-че-
+нии USB--устройств,
+ []
+
 [6
 
 
 
 
 ]
-Overfull \hbox (24.47707pt too wide) in paragraph at lines 24--25
+Overfull \hbox (24.47707pt too wide) in paragraph at lines 25--26
 []\T2A/cmr/m/n/14.4 Ядро Linux со-дер-жит ме-ха-низм, на-зы-ва-е-мый <<уве-до-м
 и-те-ля-ми>> (\T2A/cmtt/m/n/14.4 notifiers\T2A/cmr/m/n/14.4 )
  []
 
 
-Overfull \hbox (5.54892pt too wide) in paragraph at lines 24--25
+Overfull \hbox (5.54892pt too wide) in paragraph at lines 25--26
 \T2A/cmr/m/n/14.4 или <<це-поч-ка-ми уве-дом-ле-ний>> (\T2A/cmtt/m/n/14.4 notif
 iers chains\T2A/cmr/m/n/14.4 ), ко-то-рый поз-во-ля-ет раз-
  []
@@ -1289,66 +1294,76 @@ File: lstlang1.sty 2020/03/24 1.8d listings language file
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 32.
+nput line 33.
 
-Overfull \hbox (3.42896pt too wide) in paragraph at lines 40--41
+Overfull \hbox (3.42896pt too wide) in paragraph at lines 41--42
 \T2A/cmr/m/n/14.4 жит ука-за-тель на функцию--обработчик уве-дом-ле-ния (\T2A/c
 mtt/m/n/14.4 notifier_call\T2A/cmr/m/n/14.4 ), ука-
  []
 
 
-Overfull \hbox (24.28159pt too wide) in paragraph at lines 40--41
+Overfull \hbox (24.28159pt too wide) in paragraph at lines 41--42
 \T2A/cmr/m/n/14.4 за-тель на сле-ду-ю-щий уве-до-ми-тель (\T2A/cmtt/m/n/14.4 ne
 xt\T2A/cmr/m/n/14.4 ) и при-о-ри-тет уве-до-ми-те-ля (\T2A/cmtt/m/n/14.4 priori
 ty\T2A/cmr/m/n/14.4 ).
  []
 
-[7] [8]
-Overfull \hbox (3.25371pt too wide) in paragraph at lines 129--130
+[7]
+Overfull \hbox (24.38425pt too wide) in paragraph at lines 74--75
+\T2A/cmtt/m/n/14.4 /drivers/usb/core/notify.c \T2A/cmr/m/n/14.4 для под-лю-че-н
+ия и от-клю-че-ния USB--устройства. 
+ []
+
+[8] [9]
+Overfull \hbox (3.25371pt too wide) in paragraph at lines 148--149
 []\T2A/cmr/m/n/14.4 отсутствие воз-мож-но-сти вы-зо-ва об-ра-бот-чи-ка при воз-
 ник-но-ве-нии опре-
  []
 
-[9]
+[10]
 LaTeX Font Info:    Font shape `T2A/cmtt/bx/n' in size <17.28> not available
-(Font)              Font shape `T2A/cmtt/m/n' tried instead on input line 169.
+(Font)              Font shape `T2A/cmtt/m/n' tried instead on input line 188.
 
-Overfull \hbox (5.33127pt too wide) in paragraph at lines 171--172
+Overfull \hbox (5.33127pt too wide) in paragraph at lines 190--191
 []\T2A/cmr/m/n/14.4 Для хра-не-ния ин-фор-ма-ции о USB--устройстве в яд-ре ис-п
 оль-зу-ет-ся струк-
  []
 
-[10] [11]
-Overfull \hbox (9.82472pt too wide) in paragraph at lines 265--266
+[11] [12]
+Overfull \hbox (9.82472pt too wide) in paragraph at lines 284--285
 \T2A/cmtt/m/n/14.4 (PID)\T2A/cmr/m/n/14.4 ). Эти дан-ные при-сут-ству-ют в по-л
 е \T2A/cmtt/m/n/14.4 descriptor \T2A/cmr/m/n/14.4 струк-ту-ры \T2A/cmtt/m/n/14.
 4 usb_device\T2A/cmr/m/n/14.4 .
  []
 
 
-Overfull \hbox (14.66531pt too wide) in paragraph at lines 265--266
-\T2A/cmr/m/n/14.4 В ли-стин-ге []1.7[] пред-став-ле-на струк-ту-ра де-скрип-то-
+Overfull \hbox (14.66531pt too wide) in paragraph at lines 284--285
+\T2A/cmr/m/n/14.4 В ли-стин-ге []1.8[] пред-став-ле-на струк-ту-ра де-скрип-то-
 ра \T2A/cmtt/m/n/14.4 usb_device_descriptor\T2A/cmr/m/n/14.4 ,
  []
 
-[12] [13]
-Overfull \hbox (29.32382pt too wide) in paragraph at lines 297--298
+[13]
+Overfull \hbox (29.32382pt too wide) in paragraph at lines 316--317
 \T2A/cmr/m/n/14.4 ся и иден-ти-фи-ка-ци-он-ная ин-фор-ма-ция за-пи-сы-ва-ет-ся 
 в струк-ту-ру \T2A/cmtt/m/n/14.4 usb_device_id
  []
 
 [14]
-Overfull \hbox (10.37111pt too wide) in paragraph at lines 336--336
- |[]\T2A/cmr/bx/n/20.74 Запуск про-грамм поль-зо-ва-тель-ско-го про-
+Overfull \hbox (1.04814pt too wide) in paragraph at lines 357--358
+[]\T2A/cmr/m/n/14.4 Для вза-и-мо-дей-ствия с гра-фи-че-ским уско-ри-те-лем ис-п
+оль-зу-ет-ся \T2A/cmtt/m/n/14.4 NVML \T2A/cmr/m/n/14.4 [[]].
  []
 
 
-Overfull \hbox (2.32864pt too wide) in paragraph at lines 338--339
-\T2A/cmr/m/n/14.4 ра ис-поль-зу-ет-ся \T2A/cmtt/m/n/14.4 usermode-helper API\T2
-A/cmr/m/n/14.4 . Что-бы со-здать про-цесс из про-стран-
+Overfull \hbox (13.71335pt too wide) in paragraph at lines 387--388
+[]\T2A/cmr/m/n/14.4 Для управ-ле-ния со-сто-я-ни-ем гра-фи-че-ско-го уско-ри-те
+-ля ис-поль-зу-ет-ся функ-
  []
 
-[15]) [16]
+[15] [16]
+LaTeX Font Info:    Font shape `T2A/cmtt/bx/n' in size <20.74> not available
+(Font)              Font shape `T2A/cmtt/m/n' tried instead on input line 450.
+ [17] [18]) [19]
 \openout2 = `20-design.aux'.
 
  (./20-design.tex
@@ -1358,72 +1373,68 @@ Overfull \hbox (2.12222pt too wide) in paragraph at lines 3--3
  |[]\T2A/cmr/bx/n/20.74 IDEF0 по-сле-до-ва-тель-ность пре-об-ра-зо-ва-
  []
 
-<inc/img/idef0.png, id=464, 1121.18875pt x 778.91pt>
+<inc/img/idef0.png, id=538, 1166.3575pt x 807.015pt>
 File: inc/img/idef0.png Graphic file (type png)
 <use inc/img/idef0.png>
 Package pdftex.def Info: inc/img/idef0.png  used on input line 7.
-(pdftex.def)             Requested size: 450.5034pt x 312.9803pt.
-<inc/img/idef1.png, id=466, 1121.18875pt x 778.91pt>
+(pdftex.def)             Requested size: 452.33261pt x 312.9803pt.
+<inc/img/idef1.png, id=540, 1166.3575pt x 807.015pt>
 File: inc/img/idef1.png Graphic file (type png)
 <use inc/img/idef1.png>
 Package pdftex.def Info: inc/img/idef1.png  used on input line 9.
-(pdftex.def)             Requested size: 450.5034pt x 312.9803pt.
-[17
+(pdftex.def)             Requested size: 452.33261pt x 312.9803pt.
+[20
 
 
 
 
  <./inc/img/idef0.png>]
-Overfull \hbox (25.137pt too wide) in paragraph at lines 13--14
+<inc/img/idef2.png, id=548, 1166.3575pt x 807.015pt>
+File: inc/img/idef2.png Graphic file (type png)
+<use inc/img/idef2.png>
+Package pdftex.def Info: inc/img/idef2.png  used on input line 11.
+(pdftex.def)             Requested size: 452.33261pt x 312.9803pt.
+ [21 <./inc/img/idef1.png> <./inc/img/idef2.png>]
+(/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
+consecutive:
+) [22]
+
+pdfTeX warning: pdflatex (file ./inc/img/gpufreezer_algorithm.pdf): PDF inclusi
+on: found PDF version <1.7>, but at most version <1.5> allowed
+<inc/img/gpufreezer_algorithm.pdf, id=587, 598.15468pt x 846.0408pt>
+File: inc/img/gpufreezer_algorithm.pdf Graphic file (type pdf)
+<use inc/img/gpufreezer_algorithm.pdf>
+Package pdftex.def Info: inc/img/gpufreezer_algorithm.pdf  used on input line 3
+5.
+(pdftex.def)             Requested size: 402.34053pt x 569.05511pt.
+)
+Overfull \hbox (25.137pt too wide) in paragraph at lines 39--12
 \T2A/cmr/m/n/14.4 гру-жа-е-мый мо-дуль яд-ра, ко-то-рый от-сле-жи-ва-ет под-клю
 -чен-ные USB--устройства
  []
 
-[18 <./inc/img/idef1.png>]
-(/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
-consecutive:
-)
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 31.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 31.
-
-
-
-pdfTeX warning: pdflatex (file ./inc/img/gpufreezer_algorithm.pdf): PDF inclusi
-on: found PDF version <1.7>, but at most version <1.5> allowed
-<inc/img/gpufreezer_algorithm.pdf, id=483, 598.15468pt x 846.0408pt>
-File: inc/img/gpufreezer_algorithm.pdf Graphic file (type pdf)
-<use inc/img/gpufreezer_algorithm.pdf>
-Package pdftex.def Info: inc/img/gpufreezer_algorithm.pdf  used on input line 4
-1.
-(pdftex.def)             Requested size: 402.34053pt x 569.05511pt.
-[19]) [20 <./inc/img/gpufreezer_algorithm.pdf>]
+[23 <./inc/img/gpufreezer_algorithm.pdf>] [24]
 \openout2 = `30-impl.aux'.
 
  (./30-impl.tex
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 3.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 11.
+
 (/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
 consecutive:
-) [21
+) [25
 
 
 
 
 ] (/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
 consecutive:
-)
-Overfull \hbox (6.55132pt too wide) in paragraph at lines 38--38
- |[]\T2A/cmr/bx/n/20.74 Идентификация устрой-ства как до-ве-рен-
- []
-
-[22] (/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
+) [26] (/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
 consecutive:
 consecutive:
-[23])
+[27])
 Overfull \hbox (40.17467pt too wide) in paragraph at lines 53--54
 []\T2A/cmr/m/n/14.4 При под-клю-че-нии устрой-ство до-бав-ля-ет-ся в спи-сок от
 -сле-жи-ва-е-мых устройств.
@@ -1437,7 +1448,7 @@ Overfull \hbox (13.30795pt too wide) in paragraph at lines 53--54
 
 (/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
 consecutive:
-[24])
+[28])
 Overfull \hbox (24.56192pt too wide) in paragraph at lines 65--66
 []\T2A/cmr/m/n/14.4 При от-клю-че-нии устрой-ство уда-ля-ет-ся из спис-ка от-сл
 е-жи-ва-е-мых устройств.
@@ -1451,43 +1462,56 @@ Overfull \hbox (13.30795pt too wide) in paragraph at lines 65--66
 
 (/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
 consecutive:
-[25])
+) [29]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 77.
+(hyperref)                removing `\\' on input line 78.
 
 (/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
 consecutive:
-[26]) (/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
+) (/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
 consecutive:
-) [27]
-<inc/img/example_1.png, id=782, 917.4275pt x 434.62375pt>
+[30])
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 100.
+
+(/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c
+consecutive:
+[31])
+(/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/modify_gpu_drain_state.c
+consecutive:
+[32])
+(/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/modify_gpu_drain_state.c
+consecutive:
+[33]) [34]
+<inc/img/example_1.png, id=958, 917.4275pt x 434.62375pt>
 File: inc/img/example_1.png Graphic file (type png)
 <use inc/img/example_1.png>
-Package pdftex.def Info: inc/img/example_1.png  used on input line 104.
+Package pdftex.def Info: inc/img/example_1.png  used on input line 139.
 (pdftex.def)             Requested size: 420.42592pt x 199.16928pt.
-<inc/img/example_2.png, id=783, 917.4275pt x 184.69pt>
+<inc/img/example_2.png, id=959, 917.4275pt x 184.69pt>
 File: inc/img/example_2.png Graphic file (type png)
 <use inc/img/example_2.png>
-Package pdftex.def Info: inc/img/example_2.png  used on input line 106.
+Package pdftex.def Info: inc/img/example_2.png  used on input line 141.
 (pdftex.def)             Requested size: 424.00961pt x 85.35826pt.
-<inc/img/example_3.png, id=784, 917.4275pt x 38.1425pt>
+<inc/img/example_3.png, id=960, 917.4275pt x 38.1425pt>
 File: inc/img/example_3.png Graphic file (type png)
 <use inc/img/example_3.png>
-Package pdftex.def Info: inc/img/example_3.png  used on input line 108.
+Package pdftex.def Info: inc/img/example_3.png  used on input line 143.
 (pdftex.def)             Requested size: 431.163pt x 17.92523pt.
-<inc/img/example_4.png, id=785, 917.4275pt x 76.285pt>
+<inc/img/example_4.png, id=961, 917.4275pt x 76.285pt>
 File: inc/img/example_4.png Graphic file (type png)
 <use inc/img/example_4.png>
-Package pdftex.def Info: inc/img/example_4.png  used on input line 110.
+Package pdftex.def Info: inc/img/example_4.png  used on input line 145.
 (pdftex.def)             Requested size: 427.73329pt x 35.56593pt.
-<inc/img/example_5.png, id=786, 917.4275pt x 415.5525pt>
+<inc/img/example_5.png, id=962, 917.4275pt x 415.5525pt>
 File: inc/img/example_5.png Graphic file (type png)
 <use inc/img/example_5.png>
-Package pdftex.def Info: inc/img/example_5.png  used on input line 112.
+Package pdftex.def Info: inc/img/example_5.png  used on input line 147.
 (pdftex.def)             Requested size: 439.71626pt x 199.16928pt.
-) [28 <./inc/img/example_1.png> <./inc/img/example_2.png> <./inc/img/example_3.
-png> <./inc/img/example_4.png>] [29 <./inc/img/example_5.png>]
+) [35 <./inc/img/example_1.png> <./inc/img/example_2.png> <./inc/img/example_3.
+png> <./inc/img/example_4.png>] [36 <./inc/img/example_5.png>]
 \openout2 = `40-conclusion.aux'.
 
 
@@ -1497,7 +1521,7 @@ Overfull \hbox (5.89253pt too wide) in paragraph at lines 8--9
 ий USB--устройств. 
  []
 
-) [30
+) [37
 
 
 
@@ -1547,47 +1571,74 @@ Underfull \hbox (badness 10000) in paragraph at lines 72--77
 urce / include / linux /
  []
 
-[31
+[38
 
 
 
 
 ]
-Underfull \hbox (badness 1371) in paragraph at lines 80--85
+Underfull \hbox (badness 10000) in paragraph at lines 80--84
+[]\T2A/cmr/m/n/14.4 NVIDIA Management Library (NVML) [Элек-трон-ный ре-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 80--84
+\T2A/cmr/m/n/14.4 сурс].  Ре-жим до-сту-па: []$\T2A/cmtt/m/n/14.4 https : / / d
+eveloper . nvidia . com /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--97
+[]\T2A/cmr/m/n/14.4 NVIDIA System Management Interface [Элек-трон-ный ре-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--97
+\T2A/cmr/m/n/14.4 сурс].  Ре-жим до-сту-па: []$\T2A/cmtt/m/n/14.4 https : / / d
+eveloper . nvidia . com /
+ []
+
+
+Underfull \hbox (badness 1371) in paragraph at lines 100--105
 \T2A/cmr/m/n/14.4 трон-ный ре-сурс].  Ре-жим до-сту-па: []$\T2A/cmtt/m/n/14.4 h
 ttps : / / developer . ibm . com /
  []
 
 
-Underfull \hbox (badness 2181) in paragraph at lines 88--93
+Underfull \hbox (badness 2181) in paragraph at lines 108--113
 \T2A/cmtt/m/n/14.4 com / linux / v5 . 13 / source / include / linux / umh . h #
  L42$[] \T2A/cmr/m/n/14.4 (да-та об-ра-ще-
  []
 
-)) [32]
+)) [39]
 \openout2 = `50-application.aux'.
 
  (./50-application.tex
-(/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c [33
+(/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/gpufreezer.c [40
 
 
 
 
-] [34]
-[35] [36])) [37] (./cp.aux (./01-contents.aux) (./02-intro.aux)
+] [41]
+[42] [43] [44])
+(/Users/temasarkisov/MyProjects/BMSTU/gpufreezer/src/modify_gpu_drain_state.c
+[45] [46])) [47] (./cp.aux (./01-contents.aux) (./02-intro.aux)
 (./10-analysis.aux) (./20-design.aux) (./30-impl.aux) (./40-conclusion.aux)
 (./41-biblio.aux) (./50-application.aux))
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `cp.out' has not changed.
-(rerunfilecheck)             Checksum: 0BA38BA0CA28464B9F16B7BEE3B1A045;7316.
+(rerunfilecheck)             Checksum: 8795AEDEC318C3B295D6D9C88AC66EC8;7692.
  ) 
 Here is how much of TeX's memory you used:
- 40626 strings out of 478268
- 935457 string characters out of 5846347
- 1597681 words of memory out of 5000000
- 57369 multiletter control sequences out of 15000+600000
- 480000 words of font info for 47 fonts, out of 8000000 for 9000
+ 41104 strings out of 478268
+ 944939 string characters out of 5846347
+ 1650926 words of memory out of 5000000
+ 57584 multiletter control sequences out of 15000+600000
+ 480313 words of font info for 48 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 106i,6n,99p,898b,2093s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 106i,6n,99p,1062b,2093s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t2a.enc
 }{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}
 </usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></
@@ -1598,11 +1649,12 @@ cal/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/loca
 l/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/
 texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/te
 xlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1440.pfb></usr/local/texl
-ive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1728.pfb>
-Output written on cp.pdf (35 pages, 569777 bytes).
+ive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1728.pfb></usr/local/texliv
+e/2022/texmf-dist/fonts/type1/public/cm-super/sftt2074.pfb>
+Output written on cp.pdf (45 pages, 673470 bytes).
 PDF statistics:
- 1274 PDF objects out of 1440 (max. 8388607)
- 1191 compressed objects within 12 object streams
- 743 named destinations out of 1000 (max. 500000)
- 289 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1640 PDF objects out of 1728 (max. 8388607)
+ 1540 compressed objects within 16 object streams
+ 994 named destinations out of 1000 (max. 500000)
+ 310 words of extra memory for PDF output out of 10000 (max. 10000000)
 
